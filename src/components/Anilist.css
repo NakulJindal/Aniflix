@@ -1,0 +1,32 @@
+.list_poster:hover {
+  transform: scale(1.08);
+}
+
+/* styles.css */
+
+/* Container with custom scrollbar */
+.scrollable-container {
+  overflow-x: auto; /* Enable vertical scrollbar */
+  scrollbar-width: thin; /* For Firefox */
+}
+
+/* Define scrollbar track */
+.scrollable-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the scrollbar track */
+}
+
+/* Define scrollbar thumb */
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Define scrollbar corner */
+.scrollable-container::-webkit-scrollbar-corner {
+  background-color: transparent; /* Color of the scrollbar corner */
+}
+
+/* Define scrollbar arrow buttons (only for WebKit browsers) */
+.scrollable-container::-webkit-scrollbar-button {
+  display: none; /* Hide scrollbar arrow buttons */
+}
