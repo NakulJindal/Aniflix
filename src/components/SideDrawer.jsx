@@ -90,7 +90,6 @@ export default function DrawerMobileNavigation() {
             }}
           >
             Schedule
-            {/* <Link to="/?scroll=true">Schedule</Link> */}
           </ListItemButton>
           <ListItemButton>About</ListItemButton>
         </List>

@@ -35,7 +35,6 @@ export function SearchBar() {
           width: "600px",
         }}
       ></Input>
-      {/* <input id="searchInput" type="text" onChange={handleSearch} /> */}
     </div>
   );
 }

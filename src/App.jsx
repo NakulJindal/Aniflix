@@ -4,7 +4,7 @@ import Anicard from "./components/Anicard";
 import Landing from "./components/Landing";
 import { SearchResults } from "./components/Search";
 import { CssVarsProvider } from "@mui/joy/styles";
-import { CssBaseline, Sheet } from "@mui/joy";
+import { Container, CssBaseline } from "@mui/joy";
 import ColorInversionFooter from "./components/Footer";
 import Watch from "./components/Watch";
 
@@ -12,7 +12,7 @@ function App() {
   return (
     <CssVarsProvider defaultMode="dark">
       <CssBaseline />
-      <Sheet>
+      <Container maxWidth="false">
         <BrowserRouter>
           <Nav />
           <br />
@@ -28,7 +28,7 @@ function App() {
           <br />
           <ColorInversionFooter />
         </BrowserRouter>
-      </Sheet>
+      </Container>
     </CssVarsProvider>
   );
 }
