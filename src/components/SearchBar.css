@@ -1,0 +1,16 @@
+.search_bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.search_bar input {
+  width: 100%;
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .search_bar input {
+    width: 100%;
+  }
+}

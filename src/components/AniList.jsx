@@ -33,8 +33,6 @@ export function AniList({ listType }) {
       if (res) {
         const reversedData = listType === "schedule" ? res.reverse() : res;
         setData(reversedData);
-        // if (res.length > 16) res = res.slice(0, 16);
-        // else if (res.length < 16 && res.length > 8) res = res.slice(0, 8);
       }
     };
     fetchData();

@@ -35,12 +35,12 @@ export default function Banner() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((prevIndex) => (prevIndex === lastIndex ? 0 : prevIndex + 1));
-    }, 3000);
+    }, 4000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [lastIndex]); // Add lastIndex as a dependency
+  }, [lastIndex]);
 
   useEffect(() => {
     setAniData(recentAnimes[index]);

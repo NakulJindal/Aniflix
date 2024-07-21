@@ -3,17 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { SearchBar } from "./Search";
 import {
-  Avatar,
   Button,
+  IconButton,
   Dropdown,
-  Grid,
   Menu,
   MenuButton,
   MenuItem,
 } from "@mui/joy";
+import MoreVert from "@mui/icons-material/MoreVert";
 import DrawerMobileNavigation from "./SideDrawer";
 import { cardTypeAtom, clickCountAtom } from "../recoil/atoms";
 import logo from "/logo-bg.png";
+import "./Nav.css";
 
 export default function Nav() {
   const [show, setShow] = useState(false);
@@ -44,46 +45,43 @@ export default function Nav() {
 
   return (
     <div className={`nav ${show && "nav_black"}`}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <div>
+      <div className="nav_container">
+        <div className="nav_logo_container">
           <img
-            style={{ width: "200px" }}
             className="nav_logo"
             src={logo}
             alt="AniProto Logo"
             onClick={handleLogoClick}
           />
         </div>
-        <SearchBar />
-        <div>
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-end"
-          >
-            <Button variant="outlined" size="lg" onClick={handleRandomClick}>
-              Random
-            </Button>
-            <BasicMenu />
-            <DrawerMobileNavigation />
-          </Grid>
+        <div className="nav_search">
+          <SearchBar />
         </div>
-      </Grid>
+        <div className="nav_buttons">
+          <Button
+            variant="outlined"
+            size="md"
+            color="neutral"
+            onClick={handleRandomClick}
+          >
+            Random
+          </Button>
+          <IconButtonMenu />
+          <DrawerMobileNavigation />
+        </div>
+      </div>
     </div>
   );
 }
 
-export function BasicMenu() {
+export function IconButtonMenu() {
   return (
     <Dropdown>
-      <MenuButton size="md">
-        <Avatar color="primary" size="sm" variant="soft" />
+      <MenuButton
+        slots={{ root: IconButton }}
+        slotProps={{ root: { variant: "outlined", color: "neutral" } }}
+      >
+        <MoreVert />
       </MenuButton>
       <Menu>
         <MenuItem>My Profile</MenuItem>

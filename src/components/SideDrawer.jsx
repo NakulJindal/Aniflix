@@ -21,9 +21,9 @@ export default function DrawerMobileNavigation() {
   return (
     <>
       <IconButton
-        size="lg"
-        variant="outlined"
-        color="neutral"
+        size="md"
+        variant="soft"
+        color="primary"
         onClick={() => setOpen(true)}
       >
         <ViewSidebarRoundedIcon />

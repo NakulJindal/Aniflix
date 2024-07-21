@@ -5,6 +5,7 @@ import { queryAtom, showSearchResultsAtom } from "../recoil/atoms";
 import urls from "../utils/apiEndpoints";
 import { Button, Input } from "@mui/joy";
 import SearchTwoTone from "@mui/icons-material/SearchTwoTone";
+import "./SearchBar.css";
 
 export function SearchBar() {
   const setQuery = useSetRecoilState(queryAtom);
@@ -20,7 +21,7 @@ export function SearchBar() {
   };
 
   return (
-    <div>
+    <div className="search_bar">
       <Input
         id="searchInput"
         onChange={handleSearch}
@@ -32,9 +33,8 @@ export function SearchBar() {
           "--Input-placeholderOpacity": 0.3,
           "--Input-minHeight": "39px",
           "--Input-focusedThickness": "1px",
-          width: "600px",
         }}
-      ></Input>
+      />
     </div>
   );
 }
