@@ -1,56 +1,34 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import Box from "@mui/joy/Box";
 import IconButton from "@mui/joy/IconButton";
 import Drawer from "@mui/joy/Drawer";
 import List from "@mui/joy/List";
 import ListItemButton from "@mui/joy/ListItemButton";
-import Typography from "@mui/joy/Typography";
-import ModalClose from "@mui/joy/ModalClose";
-import Menu from "@mui/joy/Menu";
 import ViewSidebarRoundedIcon from "@mui/icons-material/ViewSidebarRounded";
 import { cardTypeAtom, clickCountAtom } from "../recoil/atoms";
 
-export default function DrawerMobileNavigation() {
+export default function DrawerMobileNavigation({ topAnimeRef, scheduleRef }) {
   const [open, setOpen] = useState(false);
   const setClickCount = useSetRecoilState(clickCountAtom);
   const setCardType = useSetRecoilState(cardTypeAtom);
   const navigate = useNavigate();
 
+  const scrollToComponent = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <IconButton
         size="md"
-        variant="soft"
-        color="primary"
+        variant="outlined"
+        color="neutral"
         onClick={() => setOpen(true)}
       >
         <ViewSidebarRoundedIcon />
-        <Menu />
       </IconButton>
       <Drawer open={open} onClose={() => setOpen(false)}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 0.5,
-            ml: "auto",
-            mt: 1,
-            mr: 2,
-          }}
-        >
-          <Typography
-            component="label"
-            htmlFor="close-icon"
-            fontSize="sm"
-            fontWeight="lg"
-            sx={{ cursor: "pointer" }}
-          >
-            Close
-          </Typography>
-          <ModalClose id="close-icon" sx={{ position: "initial" }} />
-        </Box>
         <List
           size="lg"
           component="nav"
@@ -63,6 +41,7 @@ export default function DrawerMobileNavigation() {
           <ListItemButton
             sx={{ fontWeight: "lg" }}
             onClick={() => {
+              setOpen(false);
               navigate("/");
             }}
           >
@@ -70,13 +49,15 @@ export default function DrawerMobileNavigation() {
           </ListItemButton>
           <ListItemButton
             onClick={() => {
-              navigate("/");
+              setOpen(false);
+              scrollToComponent(topAnimeRef);
             }}
           >
             Top Anime
           </ListItemButton>
           <ListItemButton
             onClick={() => {
+              setOpen(false);
               setCardType("random");
               setClickCount((count) => count + 1);
               navigate("/anime");
@@ -86,7 +67,8 @@ export default function DrawerMobileNavigation() {
           </ListItemButton>
           <ListItemButton
             onClick={() => {
-              navigate("/?scroll=true");
+              setOpen(false);
+              scrollToComponent(scheduleRef);
             }}
           >
             Schedule

@@ -17,7 +17,7 @@ function App() {
       <CssBaseline />
       <Container maxWidth="false">
         <BrowserRouter>
-          <Nav />
+          <Nav topAnimeRef={topAnimeRef} scheduleRef={scheduleRef} />
           <br />
           <Routes>
             <Route

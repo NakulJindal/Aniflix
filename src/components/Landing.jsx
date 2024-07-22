@@ -11,6 +11,10 @@ export default function Landing({ topAnimeRef, scheduleRef }) {
         <h1>Top Anime:</h1>
         <AniList listType="top" />
       </div>
+      <div>
+        <h1>Upcoming Anime:</h1>
+        <AniList listType="upcoming" />
+      </div>
       <div ref={scheduleRef}>
         <Schedule />
       </div>

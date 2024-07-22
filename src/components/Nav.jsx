@@ -16,7 +16,7 @@ import { cardTypeAtom, clickCountAtom } from "../recoil/atoms";
 import logo from "/logo-bg.png";
 import "./Nav.css";
 
-export default function Nav() {
+export default function Nav({ topAnimeRef, scheduleRef }) {
   const [show, setShow] = useState(false);
   const setClickCount = useSetRecoilState(clickCountAtom);
   const setCardType = useSetRecoilState(cardTypeAtom);
@@ -67,7 +67,10 @@ export default function Nav() {
             Random
           </Button>
           <IconButtonMenu />
-          <DrawerMobileNavigation />
+          <DrawerMobileNavigation
+            topAnimeRef={topAnimeRef}
+            scheduleRef={scheduleRef}
+          />
         </div>
       </div>
     </div>

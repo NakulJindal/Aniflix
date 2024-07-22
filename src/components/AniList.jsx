@@ -26,6 +26,9 @@ export function AniList({ listType }) {
         case "schedule":
           URL = urls.getScheduleFor(day);
           break;
+        case "upcoming":
+          URL = urls.getSeasonUpcoming;
+          break;
         default:
           URL = urls.getRecommendedAnimeList(id);
       }

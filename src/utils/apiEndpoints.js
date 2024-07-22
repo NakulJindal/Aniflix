@@ -9,6 +9,7 @@ const urls = {
   getRandomAnime: `${base_url}/random/anime`,
   getRecentRecommendations: `${base_url}/recommendations/anime?page=1`,
   getSeasonNow: `${base_url}/seasons/now?filter=tv&sfw=false&unapproved=false&page=1&limit=7`,
+  getSeasonUpcoming: `${base_url}/seasons/upcoming?filter=tv&sfw=false&unapproved=false&page=1&limit=16`,
   getSearchResults: (query) =>
     `${base_url}/anime?sfw=false&unapproved=false&page=1&limit=12&sfw=false&order_by=popularity&sort=asc&q=${query}`,
   getScheduleFor: (day) =>
