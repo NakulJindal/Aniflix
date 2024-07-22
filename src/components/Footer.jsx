@@ -8,9 +8,37 @@ import {
   Typography,
   Sheet,
 } from "@mui/joy";
+import {
+  cardTypeAtom,
+  clickCountAtom,
+  showSearchResultsAtom,
+} from "../recoil/atoms";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
-export default function ColorInversionFooter() {
+export default function ColorInversionFooter({ topAnimeRef, scheduleRef }) {
   const color = "neutral";
+
+  const setCardType = useSetRecoilState(cardTypeAtom);
+  const setClickCount = useSetRecoilState(clickCountAtom);
+  const [show, setShow] = useRecoilState(showSearchResultsAtom);
+  const navigate = useNavigate();
+
+  const searchClickHandler = () => {
+    if (!show) setShow(true);
+    navigate("/search");
+  };
+
+  const randomClickHandler = () => {
+    setCardType("random");
+    setClickCount((count) => count + 1);
+    navigate("/anime");
+  };
+
+  const scrollToComponent = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Sheet
       variant="solid"
@@ -49,16 +77,24 @@ export default function ColorInversionFooter() {
             <ListSubheader sx={{ fontWeight: "xl" }}>Sitemap:</ListSubheader>
             <List>
               <ListItem>
-                <ListItemButton>Search Aime</ListItemButton>
+                <ListItemButton onClick={searchClickHandler}>
+                  Search Anime
+                </ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton>Random Anime</ListItemButton>
+                <ListItemButton onClick={randomClickHandler}>
+                  Random Anime
+                </ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton>Top Anime</ListItemButton>
+                <ListItemButton onClick={() => scrollToComponent(topAnimeRef)}>
+                  Top Anime
+                </ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton>Estimated Schedule</ListItemButton>
+                <ListItemButton onClick={() => scrollToComponent(scheduleRef)}>
+                  Estimated Schedule
+                </ListItemButton>
               </ListItem>
             </List>
           </ListItem>
@@ -66,13 +102,37 @@ export default function ColorInversionFooter() {
             <ListSubheader sx={{ fontWeight: "xl" }}>Contact Me:</ListSubheader>
             <List sx={{ "--ListItemDecorator-size": "32px" }}>
               <ListItem>
-                <ListItemButton>Instagram</ListItemButton>
+                <ListItemButton>
+                  <a
+                    href="https://www.instagram.com/jindal0_0/"
+                    target="_blank"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    Instagram
+                  </a>
+                </ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton>Mail</ListItemButton>
+                <ListItemButton>
+                  <a
+                    href="https://www.linkedin.com/in/jindalnakul/"
+                    target="_blank"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    LinkedIn
+                  </a>
+                </ListItemButton>
               </ListItem>
               <ListItem>
-                <ListItemButton>GitHub</ListItemButton>
+                <ListItemButton>
+                  <a
+                    href="https://github.com/NakulJindal"
+                    target="_blank"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    GitHub
+                  </a>
+                </ListItemButton>
               </ListItem>
             </List>
           </ListItem>

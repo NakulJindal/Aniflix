@@ -8,9 +8,7 @@ import { apiCall } from "../utils/utils";
 
 export default function Banner() {
   const [recentAnimes, setRecentAnimes] = useState([]);
-  const [aniData, setAniData] = useState({});
   const [index, setIndex] = useState(0);
-  const [lastIndex, setLastIndex] = useState(0);
   const setAniId = useSetRecoilState(aniIdAtom);
   const setTrailer = useSetRecoilState(trailerAtom);
   const navigate = useNavigate();
@@ -23,47 +21,42 @@ export default function Banner() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await apiCall(urls.getSeasonNow);
-      if (data) {
-        setRecentAnimes(data);
-        setLastIndex(data.length - 1);
-        setAniData(data[index]);
-      }
+      if (data) setRecentAnimes(data);
     };
     fetchData();
   }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex === lastIndex ? 0 : prevIndex + 1));
+      setIndex((prevIndex) =>
+        prevIndex === recentAnimes.length - 1 ? 0 : prevIndex + 1
+      );
     }, 4000);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [lastIndex]);
-
-  useEffect(() => {
-    setAniData(recentAnimes[index]);
-  }, [index, recentAnimes]);
+    return () => clearInterval(intervalId);
+  }, [index]);
 
   const handleInfoClick = () => {
-    setAniId(aniData.mal_id);
+    setAniId(recentAnimes[index].mal_id);
     navigate("/anime");
   };
 
   const handlePlay = () => {
-    setAniId(aniData.mal_id);
-    setTrailer(aniData.trailer.youtube_id);
-    // setTrailer(aniData.trailer.embed_url);
+    setAniId(recentAnimes[index].mal_id);
+    setTrailer(recentAnimes[index].trailer.youtube_id);
     navigate("/watch");
   };
 
   const handleNextClick = () => {
-    setIndex((prevIndex) => (prevIndex === lastIndex ? 0 : prevIndex + 1));
+    setIndex((prevIndex) =>
+      prevIndex === recentAnimes.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   const handlePrevClick = () => {
-    setIndex((prevIndex) => (prevIndex === 0 ? lastIndex : prevIndex - 1));
+    setIndex((prevIndex) =>
+      prevIndex === 0 ? recentAnimes.length - 1 : prevIndex - 1
+    );
   };
 
   return (
@@ -73,7 +66,7 @@ export default function Banner() {
         height: "320px",
       }}
     >
-      {aniData && Object.keys(aniData).length !== 0 && (
+      {recentAnimes[index] && Object.keys(recentAnimes[index]).length !== 0 && (
         <div
           className="banner_contents"
           style={{
@@ -85,10 +78,14 @@ export default function Banner() {
           }}
         >
           <div>
-            <Typography level="h1">{aniData.title_english}</Typography>
+            <Typography level="h1">
+              {recentAnimes[index].title_english}
+            </Typography>
             <br />
             <Typography level="body-md" sx={{ width: "360px" }}>
-              {aniData?.synopsis ? truncate(aniData?.synopsis, 150) : ""}
+              {recentAnimes[index]?.synopsis
+                ? truncate(recentAnimes[index]?.synopsis, 150)
+                : ""}
             </Typography>
             <br />
             <ButtonGroup
@@ -131,7 +128,7 @@ export default function Banner() {
           <div>
             <img
               style={{ height: "320px" }}
-              src={aniData?.images?.jpg?.large_image_url || ""}
+              src={recentAnimes[index]?.images?.jpg?.large_image_url || ""}
               alt="anime_poster"
             />
           </div>

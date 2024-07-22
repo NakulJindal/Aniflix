@@ -7,8 +7,11 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import { Container, CssBaseline } from "@mui/joy";
 import ColorInversionFooter from "./components/Footer";
 import Watch from "./components/Watch";
+import { useRef } from "react";
 
 function App() {
+  const topAnimeRef = useRef(null);
+  const scheduleRef = useRef(null);
   return (
     <CssVarsProvider defaultMode="dark">
       <CssBaseline />
@@ -17,7 +20,12 @@ function App() {
           <Nav />
           <br />
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route
+              path="/"
+              element={
+                <Landing topAnimeRef={topAnimeRef} scheduleRef={scheduleRef} />
+              }
+            />
             <Route
               path="/search"
               element={<SearchResults listType="search" />}
@@ -26,7 +34,10 @@ function App() {
             <Route path="/watch" element={<Watch />} />
           </Routes>
           <br />
-          <ColorInversionFooter />
+          <ColorInversionFooter
+            topAnimeRef={topAnimeRef}
+            scheduleRef={scheduleRef}
+          />
         </BrowserRouter>
       </Container>
     </CssVarsProvider>

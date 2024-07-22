@@ -1,14 +1,19 @@
+import { useRef } from "react";
 import Banner from "./Banner";
 import { AniList } from "./AniList";
 import Schedule from "./Schedule";
 
-export default function Landing() {
+export default function Landing({ topAnimeRef, scheduleRef }) {
   return (
     <>
       <Banner />
-      <h1>Top Anime:</h1>
-      <AniList listType="top" />
-      <Schedule />
+      <div ref={topAnimeRef}>
+        <h1>Top Anime:</h1>
+        <AniList listType="top" />
+      </div>
+      <div ref={scheduleRef}>
+        <Schedule />
+      </div>
     </>
   );
 }
