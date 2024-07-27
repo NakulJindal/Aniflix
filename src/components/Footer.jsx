@@ -49,7 +49,7 @@ export default function ColorInversionFooter({ topAnimeRef, scheduleRef }) {
           bgcolor: `${color}`,
         }),
         flexGrow: 1,
-        p: 2,
+        p: 1.5,
         borderRadius: { xs: 0, sm: "sm" },
       }}
     >

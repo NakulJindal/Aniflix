@@ -14,25 +14,32 @@ function App() {
   const scheduleRef = useRef(null);
   return (
     <CssVarsProvider defaultMode="dark">
-      <CssBaseline />
-      <Container maxWidth="false">
+      <Container
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
+        <CssBaseline />
         <BrowserRouter>
           <Nav topAnimeRef={topAnimeRef} scheduleRef={scheduleRef} />
-          <br />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Landing topAnimeRef={topAnimeRef} scheduleRef={scheduleRef} />
-              }
-            />
-            <Route
-              path="/search"
-              element={<SearchResults listType="search" />}
-            />
-            <Route path="/anime" element={<Anicard />} />
-            <Route path="/watch" element={<Watch />} />
-          </Routes>
+          <Container sx={{ flex: 1 }}>
+            <br />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Landing
+                    topAnimeRef={topAnimeRef}
+                    scheduleRef={scheduleRef}
+                  />
+                }
+              />
+              <Route
+                path="/search"
+                element={<SearchResults listType="search" />}
+              />
+              <Route path="/anime" element={<Anicard />} />
+              <Route path="/watch" element={<Watch />} />
+            </Routes>
+          </Container>
           <br />
           <ColorInversionFooter
             topAnimeRef={topAnimeRef}

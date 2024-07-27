@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { Card, CardCover, CardContent, Grid, Typography } from "@mui/joy";
+import { Card, CardCover, CardContent, Typography } from "@mui/joy";
 import {
   aniIdAtom,
   cardTypeAtom,
@@ -51,9 +51,6 @@ export default function GradientCover({ entry, listType }) {
         <Typography level="title-md" textColor="#fff">
           {truncate(aniTitle, 20)}
         </Typography>
-        {/* <Typography level="body-sm" textColor="neutral.300">
-             add type-> TV,MOVIE,ONA,OVA
-          </Typography> */}
       </CardContent>
     </Card>
   );
