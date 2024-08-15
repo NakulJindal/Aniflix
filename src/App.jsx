@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
+import LogIn from "./components/LogIn";
+import Signup from "./components/SignUp";
 import Anicard from "./components/Anicard";
 import Landing from "./components/Landing";
 import { SearchResults } from "./components/Search";
@@ -36,6 +38,8 @@ function App() {
                 path="/search"
                 element={<SearchResults listType="search" />}
               />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/anime" element={<Anicard />} />
               <Route path="/watch" element={<Watch />} />
             </Routes>
