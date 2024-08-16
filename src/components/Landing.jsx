@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import Banner from "./Banner";
 import { AniList } from "./AniList";
 import Schedule from "./Schedule";

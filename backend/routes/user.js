@@ -32,13 +32,10 @@ userRouter.post("/signup", userSignupValidate, async function (req, res) {
 
       const userid = newUser._id;
 
-      const newAccount = await Account.create({
+      await Account.create({
         watchList: [],
         userId: userid,
       });
-
-      console.log(newUser);
-      console.log(newAccount);
 
       const jwtToken = jwt.sign({ userid: userid }, JWT_SECRET);
 

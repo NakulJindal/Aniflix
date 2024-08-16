@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { SearchBar } from "./Search";
 import {
   Button,
@@ -12,7 +12,7 @@ import {
 } from "@mui/joy";
 import MoreVert from "@mui/icons-material/MoreVert";
 import DrawerMobileNavigation from "./SideDrawer";
-import { cardTypeAtom, clickCountAtom } from "../recoil/atoms";
+import { cardTypeAtom, clickCountAtom, loginAtom } from "../recoil/atoms";
 import logo from "/logo-bg.png";
 import "./Nav.css";
 import axios from "axios";
@@ -80,15 +80,19 @@ export default function Nav({ topAnimeRef, scheduleRef }) {
 
 export function IconButtonMenu() {
   const navigate = useNavigate();
+  const [isLogin, setLogin] = useRecoilState(loginAtom);
 
   const signup = () => navigate("/signup");
   const login = () => navigate("/login");
+  const profile = () => navigate("/profile");
+  const watchlist = () => navigate("/watchlist");
   const logout = async () => {
     await axios.post(
       "http://localhost:3000/api/v1/user/signout",
       {},
       { withCredentials: true }
     );
+    setLogin(false);
     navigate("/");
   };
 
@@ -101,11 +105,11 @@ export function IconButtonMenu() {
         <MoreVert />
       </MenuButton>
       <Menu>
-        <MenuItem>My Profile</MenuItem>
-        <MenuItem>Watchlist</MenuItem>
-        <MenuItem onClick={signup}>SignUp</MenuItem>
-        <MenuItem onClick={login}>LogIn</MenuItem>
-        <MenuItem onClick={logout}>LogOut</MenuItem>
+        {!isLogin && <MenuItem onClick={signup}>SignUp</MenuItem>}
+        {!isLogin && <MenuItem onClick={login}>LogIn</MenuItem>}
+        {isLogin && <MenuItem onClick={profile}>My Profile</MenuItem>}
+        {isLogin && <MenuItem onClick={watchlist}>Watchlist</MenuItem>}
+        {isLogin && <MenuItem onClick={logout}>LogOut</MenuItem>}
       </Menu>
     </Dropdown>
   );

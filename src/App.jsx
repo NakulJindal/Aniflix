@@ -2,8 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import LogIn from "./components/LogIn";
 import Signup from "./components/SignUp";
-import Anicard from "./components/Anicard";
 import Landing from "./components/Landing";
+import Anicard from "./components/Anicard";
+import Profile from "./components/Profile";
+import Watchlist from "./components/Watchlist";
 import { SearchResults } from "./components/Search";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { Container, CssBaseline } from "@mui/joy";
@@ -40,6 +42,8 @@ function App() {
               />
               <Route path="/login" element={<LogIn />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/watchlist" element={<Watchlist />} />
               <Route path="/anime" element={<Anicard />} />
               <Route path="/watch" element={<Watch />} />
             </Routes>

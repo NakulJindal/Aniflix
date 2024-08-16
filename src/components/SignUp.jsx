@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { loginAtom } from "../recoil/atoms";
+import { Button, Card, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
 function Signup() {
   const [error, setError] = useState("");
@@ -10,6 +13,7 @@ function Signup() {
     username: "",
     password: "",
   });
+  const setLogin = useSetRecoilState(loginAtom);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,10 +31,8 @@ function Signup() {
       !formData.firstName ||
       !formData.username ||
       !formData.password
-    ) {
-      setError("All fields are required.");
+    )
       return;
-    }
 
     try {
       const res = await axios.post(
@@ -39,6 +41,7 @@ function Signup() {
         { withCredentials: true }
       );
 
+      setLogin(true);
       navigate("/");
     } catch (error) {
       console.error("Error sending POST request:", error);
@@ -50,60 +53,79 @@ function Signup() {
       username: "",
       password: "",
     });
-    setError("");
   };
 
   return (
-    <div className="signup-container">
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        {error && <p className="error">{error}</p>}
-        <div className="form-group">
-          <label>First Name:</label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Enter your First Name"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Last Name:</label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Enter your Last Name"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        <button type="submit">Sign Up</button>
-      </form>
+    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <Card
+        color="neutral"
+        orientation="vertical"
+        size="sm"
+        sx={{ width: 500 }}
+      >
+        <h2>Signup</h2>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={1}>
+            <FormControl>
+              <FormLabel>First Name:</FormLabel>
+              <Input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Enter your First Name"
+                color="neutral"
+                size="lg"
+                variant="soft"
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Last Name:</FormLabel>
+              <Input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Enter your Last Name"
+                color="neutral"
+                size="lg"
+                variant="soft"
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Username:</FormLabel>
+              <Input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Enter your Username"
+                color="neutral"
+                size="lg"
+                variant="soft"
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>First Name:</FormLabel>
+              <Input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your Password"
+                color="neutral"
+                size="lg"
+                variant="soft"
+                required
+              />
+            </FormControl>
+            <Button type="submit">Sign Up</Button>
+          </Stack>
+        </form>
+      </Card>
     </div>
   );
 }

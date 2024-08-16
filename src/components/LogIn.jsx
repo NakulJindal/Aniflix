@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { loginAtom } from "../recoil/atoms";
+import { Button, Card, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
 function LogIn() {
-  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+  const setLogin = useSetRecoilState(loginAtom);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,10 +23,7 @@ function LogIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.username || !formData.password) {
-      setError("All fields are required.");
-      return;
-    }
+    if (!formData.username || !formData.password) return;
 
     try {
       const res = await axios.post(
@@ -31,7 +31,7 @@ function LogIn() {
         formData,
         { withCredentials: true }
       );
-
+      setLogin(true);
       navigate("/");
     } catch (error) {
       console.error("Error sending POST request:", error);
@@ -41,38 +41,51 @@ function LogIn() {
       username: "",
       password: "",
     });
-    setError("");
   };
 
   return (
-    <div className="login-container">
-      <h2>LogIn</h2>
-      <form onSubmit={handleSubmit}>
-        {error && <p className="error">{error}</p>}
-        <div className="form-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        <button type="submit">Log In</button>
-      </form>
+    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <Card
+        color="neutral"
+        orientation="vertical"
+        size="sm"
+        sx={{ width: 500 }}
+      >
+        <h2>LogIn</h2>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={1}>
+            <FormControl>
+              <FormLabel>Username:</FormLabel>
+              <Input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Enter your username"
+                color="neutral"
+                size="lg"
+                variant="soft"
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Password:</FormLabel>
+              <Input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                color="neutral"
+                size="lg"
+                variant="soft"
+                required
+              />
+            </FormControl>
+            <Button type="submit">Log In</Button>
+          </Stack>
+        </form>
+      </Card>
     </div>
   );
 }

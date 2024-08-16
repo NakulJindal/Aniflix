@@ -6,6 +6,11 @@ export const aniIdAtom = atom({
   default: 1,
 });
 
+export const loginAtom = atom({
+  key: "loginAtom",
+  default: false,
+});
+
 export const cardTypeAtom = atom({
   key: "cardTypeAtom",
   default: "",
