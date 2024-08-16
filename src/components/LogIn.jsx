@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { loginAtom } from "../recoil/atoms";
 import { Button, Card, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
-function LogIn() {
+export default function LogIn() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -89,5 +89,3 @@ function LogIn() {
     </div>
   );
 }
-
-export default LogIn;

@@ -40,3 +40,8 @@ export const trailerAtom = atom({
   key: "trailerAtom",
   default: "",
 });
+
+export const userAtom = atom({
+  key: "userAtom",
+  default: {},
+});

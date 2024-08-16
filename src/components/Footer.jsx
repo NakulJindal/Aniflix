@@ -16,7 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-export default function ColorInversionFooter({ topAnimeRef, scheduleRef }) {
+export default function Footer({ topAnimeRef, scheduleRef }) {
   const color = "neutral";
 
   const setCardType = useSetRecoilState(cardTypeAtom);

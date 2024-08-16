@@ -1,6 +1,9 @@
+import { useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
+import Watch from "./components/Watch";
 import LogIn from "./components/LogIn";
+import Footer from "./components/Footer";
 import Signup from "./components/SignUp";
 import Landing from "./components/Landing";
 import Anicard from "./components/Anicard";
@@ -9,13 +12,11 @@ import Watchlist from "./components/Watchlist";
 import { SearchResults } from "./components/Search";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { Container, CssBaseline } from "@mui/joy";
-import ColorInversionFooter from "./components/Footer";
-import Watch from "./components/Watch";
-import { useRef } from "react";
 
 function App() {
   const topAnimeRef = useRef(null);
   const scheduleRef = useRef(null);
+
   return (
     <CssVarsProvider defaultMode="dark">
       <Container
@@ -49,10 +50,7 @@ function App() {
             </Routes>
           </Container>
           <br />
-          <ColorInversionFooter
-            topAnimeRef={topAnimeRef}
-            scheduleRef={scheduleRef}
-          />
+          <Footer topAnimeRef={topAnimeRef} scheduleRef={scheduleRef} />
         </BrowserRouter>
       </Container>
     </CssVarsProvider>

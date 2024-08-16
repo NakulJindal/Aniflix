@@ -1,18 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { loginAtom } from "../recoil/atoms";
 import { Button, Card, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
-export default function Signup() {
+export default function Edit({ userData }) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    password: "",
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    password: userData.password,
+    avatar: userData.avatar,
   });
-  const setLogin = useSetRecoilState(loginAtom);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,20 +25,19 @@ export default function Signup() {
     if (
       !formData.lastName ||
       !formData.firstName ||
-      !formData.username ||
+      !formData.avatar ||
       !formData.password
     )
       return;
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/user/signup",
+      const res = await axios.put(
+        "http://localhost:3000/api/v1/user/edit",
         formData,
         { withCredentials: true }
       );
 
-      setLogin(true);
-      navigate("/");
+      navigate("/profile");
     } catch (error) {
       console.error("Error sending POST request:", error);
     }
@@ -55,14 +51,26 @@ export default function Signup() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        marginLeft: "20px",
+      }}
+    >
       <Card
         color="neutral"
         orientation="vertical"
         size="sm"
-        sx={{ width: 500 }}
+        sx={{
+          width: "100%",
+          paddingLeft: "15px",
+          paddingRight: "15px",
+          paddingBottom: "15px",
+        }}
       >
-        <h2>Signup</h2>
+        <h2 style={{ marginTop: "0px" }}>Edit</h2>
         <form onSubmit={handleSubmit}>
           <Stack spacing={1}>
             <FormControl>
@@ -94,13 +102,13 @@ export default function Signup() {
               />
             </FormControl>
             <FormControl>
-              <FormLabel>Username:</FormLabel>
+              <FormLabel>Avatar URL:</FormLabel>
               <Input
                 type="text"
-                name="username"
-                value={formData.username}
+                name="avatar"
+                value={formData.avatar}
                 onChange={handleChange}
-                placeholder="Enter your Username"
+                placeholder="Enter link to your Avatar"
                 color="neutral"
                 size="lg"
                 variant="soft"
@@ -108,7 +116,7 @@ export default function Signup() {
               />
             </FormControl>
             <FormControl>
-              <FormLabel>First Name:</FormLabel>
+              <FormLabel>Password:</FormLabel>
               <Input
                 type="password"
                 name="password"
@@ -121,7 +129,8 @@ export default function Signup() {
                 required
               />
             </FormControl>
-            <Button type="submit">Sign Up</Button>
+            <br />
+            <Button type="submit">Update</Button>
           </Stack>
         </form>
       </Card>

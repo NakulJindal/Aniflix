@@ -30,6 +30,9 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     maxLength: 50,
   },
+  avatar: {
+    type: String,
+  },
 });
 
 const AccountSchema = new mongoose.Schema({

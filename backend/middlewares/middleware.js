@@ -7,6 +7,7 @@ const signUpUser = zod.object({
   firstName: zod.string(),
   lastName: zod.string(),
   password: zod.string().min(6),
+  avatar: zod.string().optional(),
 });
 
 const signInUser = zod.object({
@@ -15,21 +16,21 @@ const signInUser = zod.object({
 });
 
 const updateBody = zod.object({
-  password: zod.string().optional(),
   firstName: zod.string().optional(),
-  lastName: zod.string().min(6).optional(),
+  lastName: zod.string().optional(),
+  password: zod.string().min(6).optional(),
+  avatar: zod.string().optional(),
 });
 
 function authMiddleware(req, res, next) {
   const jwtToken = req.cookies.token;
-  console.log(jwtToken);
 
   if (!jwtToken)
     res.status(403).json({ message: "INVALID TOKEN!! PLEASE SIGN IN." }).end();
 
   try {
     const decoded = jwt.verify(jwtToken, JWT_SECRET);
-    req.userId = decoded.userid;
+    req.userId = decoded.userId;
     next();
   } catch (err) {
     console.log(err);

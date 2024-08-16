@@ -12,8 +12,31 @@ require("dotenv").config();
 
 const userRouter = express.Router();
 
-userRouter.get("/", function (req, res) {
-  res.status(200).json({ message: "Connected successfully!!" });
+userRouter.get("/", authMiddleware, async function (req, res) {
+  try {
+    const user = await User.findOne({ _id: req.userId });
+
+    if (!user)
+      return res
+        .status(200)
+        .json({
+          firstName: "John",
+          lastName: "Doe",
+          username: "johndoe@example.com",
+          avatar: "https://via.placeholder.com/150",
+        })
+        .end();
+
+    res.status(200).json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      avatar: user.avatar,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: "User Not Found!!" });
+  }
 });
 
 userRouter.post("/signup", userSignupValidate, async function (req, res) {
@@ -28,6 +51,9 @@ userRouter.post("/signup", userSignupValidate, async function (req, res) {
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        avatar:
+          req.body.avatar ||
+          "https://play-lh.googleusercontent.com/HHJb4ew7S16SHjqNjp1nEkVKn8L2j1rXPjVmF4fqf-mGjZYYIjhHYKjUJSLbB7SRx1HS",
       });
 
       const userid = newUser._id;
@@ -102,7 +128,7 @@ userRouter.post("/signout", async function (req, res) {
 });
 
 userRouter.put(
-  "/",
+  "/edit",
   authMiddleware,
   updateInputValidate,
   async function (req, res) {
