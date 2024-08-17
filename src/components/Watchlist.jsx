@@ -3,12 +3,7 @@ import { Button, Sheet, Stack, styled, Typography } from "@mui/joy";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import {
-  aniIdAtom,
-  cardTypeAtom,
-  clickCountAtom,
-  trailerAtom,
-} from "../recoil/atoms";
+import { aniIdAtom, cardTypeAtom, trailerAtom } from "../recoil/atoms";
 
 export default function Watchlist() {
   const [data, setData] = useState([]);
