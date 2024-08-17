@@ -10,11 +10,9 @@ This is a anime streaming website created using React and Recoil for state manag
 ### Note: This is an Ongoing-project.
 
 ## Upcoming Features:
-1. User signup/signin.
-2. User watchlist creation.
-3. User can track there watchlist animes.
-4. Comment section 
-5. Better UI
+1. Popups for wrong input
+2. Comment section 
+3. Better UI
 
 ### As this is a ongoing project all suggestions and feedbacks are welcome.
 
