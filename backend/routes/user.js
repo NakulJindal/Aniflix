@@ -14,7 +14,7 @@ const userRouter = express.Router();
 
 userRouter.get("/", authMiddleware, async function (req, res) {
   try {
-    const user = await User.findOne({ _id: req.userId });
+    const user = await User.findById(req.userId);
 
     if (!user)
       return res
@@ -59,11 +59,11 @@ userRouter.post("/signup", userSignupValidate, async function (req, res) {
       const userid = newUser._id;
 
       await Account.create({
-        watchList: [],
         userId: userid,
+        watchList: [],
       });
 
-      const jwtToken = jwt.sign({ userid: userid }, JWT_SECRET);
+      const jwtToken = jwt.sign({ userId: userid }, JWT_SECRET);
 
       res.cookie("token", jwtToken, {
         expires: new Date(new Date().getTime() + 7 * 86400000),

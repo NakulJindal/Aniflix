@@ -43,8 +43,8 @@ const TrailerSchema = new mongoose.Schema({
     large_image_url: { type: String, required: false },
     maximum_image_url: { type: String, required: false },
   },
-  url: { type: String, required: true },
-  youtube_id: { type: String, required: true },
+  url: { type: String, required: false },
+  youtube_id: { type: String, required: false },
 });
 
 const ImageFormatSchema = new mongoose.Schema({
@@ -69,7 +69,7 @@ const AnimeSchema = new mongoose.Schema({
   airing: { type: Boolean, required: true },
   broadcast: { type: BroadcastSchema, required: false },
   episodes: { type: Number, required: false },
-  mal_id: { type: Number, required: true, unique: true },
+  mal_id: { type: Number, required: true },
   title: { type: String, required: true },
   title_english: { type: String, required: true },
   title_japanese: { type: String, required: true },
@@ -83,6 +83,7 @@ const AccountSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    unique: true,
     required: true,
   },
   watchList: {

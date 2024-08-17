@@ -10,7 +10,7 @@ accountRouter.get("/", authMiddleware, async function (req, res) {
     res.status(200).json({ watchList: account.watchList });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: "Could not Fetch Balance." });
+    res.status(400).json({ message: "Could not Fetch List." });
   }
 });
 
@@ -72,23 +72,14 @@ accountRouter.put("/add", authMiddleware, async function (req, res) {
     const userId = req.userId;
     const aniData = req.body;
 
-    const existingAccount = await Account.findOne({ userId });
-
-    if (!existingAccount)
-      return res.status(200).json({ message: "Account Not Found!!" }).end();
-
-    const alreadyExists = existingAccount.watchList.some(
-      (item) => item.mal_id === aniData.mal_id
+    const updatedAccount = await Account.findOneAndUpdate(
+      { userId },
+      { $addToSet: { watchList: aniData } }, // Prevents duplicates
+      { new: true, upsert: false }
     );
 
-    if (alreadyExists)
-      return res
-        .status(200)
-        .json({ message: "Anime already present in Watchlist!!" })
-        .end();
-
-    existingAccount.watchList.push(aniData);
-    await existingAccount.save();
+    if (!updatedAccount)
+      return res.status(200).json({ message: "Account Not Found!!" }).end();
 
     res.status(200).json({
       message: "Added to Watch List!!",
