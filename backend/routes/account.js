@@ -74,7 +74,7 @@ accountRouter.put("/add", authMiddleware, async function (req, res) {
 
     const updatedAccount = await Account.findOneAndUpdate(
       { userId },
-      { $addToSet: { watchList: aniData } }, // Prevents duplicates
+      { $addToSet: { watchList: aniData } },
       { new: true, upsert: false }
     );
 
