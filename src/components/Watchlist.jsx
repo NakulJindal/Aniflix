@@ -1,11 +1,30 @@
 import { useState, useEffect } from "react";
 import { Button, Sheet, Stack, styled, Typography } from "@mui/joy";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import {
+  aniIdAtom,
+  cardTypeAtom,
+  clickCountAtom,
+  trailerAtom,
+} from "../recoil/atoms";
 
 export default function Watchlist() {
   const [data, setData] = useState([]);
-  const [id, setId] = useState(0);
   const [reRender, setreRender] = useState(false);
+  const setAniId = useSetRecoilState(aniIdAtom);
+  const setCardType = useSetRecoilState(cardTypeAtom);
+  const setClickCount = useSetRecoilState(clickCountAtom);
+  const setTrailer = useSetRecoilState(trailerAtom);
+  const navigate = useNavigate();
+
+  const handleSelect = async (data) => {
+    setAniId(data.mal_id);
+    setCardType("watchlist");
+    setTrailer(data.trailer.youtube_id);
+    navigate("/watch");
+  };
 
   const handleClick = async (mal_id) => {
     try {
@@ -63,7 +82,7 @@ export default function Watchlist() {
               data.length > 0 &&
               data.map((e, index) => (
                 <Item key={index}>
-                  <div style={{ width: "5%" }}>
+                  <div style={{ width: "5%" }} onClick={() => handleSelect(e)}>
                     <img
                       src={e.images?.jpg?.image_url}
                       alt={`${e.title_english}.jpeg`}
@@ -85,7 +104,12 @@ export default function Watchlist() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <h3 style={{ margin: "0%" }}>{e.title_english}</h3>
+                      <h3
+                        style={{ margin: "0%" }}
+                        onClick={() => handleSelect(e)}
+                      >
+                        {e.title_english}
+                      </h3>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Button onClick={() => handleClick(e.mal_id)} size="sm">
                           Remove from Watchlist
@@ -97,6 +121,7 @@ export default function Watchlist() {
                         display: "flex",
                         justifyContent: "space-between",
                       }}
+                      onClick={() => handleSelect(e)}
                     >
                       <div
                         style={{
