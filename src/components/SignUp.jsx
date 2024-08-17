@@ -108,7 +108,7 @@ export default function Signup() {
               />
             </FormControl>
             <FormControl>
-              <FormLabel>First Name:</FormLabel>
+              <FormLabel>Password:</FormLabel>
               <Input
                 type="password"
                 name="password"
