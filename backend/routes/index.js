@@ -5,7 +5,7 @@ const accountRouter = require("./account");
 const Router = express.Router();
 
 Router.use("/user", userRouter);
-Router.use("/account", accountRouter);
+Router.use("/watchlist", accountRouter);
 
 Router.get("/", (req, res) => {
   res.status(200).json({ message: "Connected and Running!!" });

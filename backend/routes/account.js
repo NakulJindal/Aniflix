@@ -1,15 +1,10 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const { Account } = require("../db");
 const { authMiddleware } = require("../middlewares/middleware");
 
 const accountRouter = express.Router();
 
-accountRouter.get("/", function (req, res) {
-  res.status(200).json({ message: "Connected successfully!!" });
-});
-
-accountRouter.get("/watchlist", authMiddleware, async function (req, res) {
+accountRouter.get("/", authMiddleware, async function (req, res) {
   try {
     const account = await Account.findOne({ userId: req.userId });
     res.status(200).json({ watchList: account.watchList });
@@ -19,18 +14,81 @@ accountRouter.get("/watchlist", authMiddleware, async function (req, res) {
   }
 });
 
-accountRouter.put("/add", authMiddleware, async function (req, res) {
+accountRouter.post("/check", authMiddleware, async function (req, res) {
   try {
-    const { mal_id } = req.body;
+    const userId = req.userId;
+    const mal_id = req.body.mal_id;
 
-    const updatedAccount = await Account.findOneAndUpdate(
-      { userId: userId },
-      { $addToSet: { watchList: mal_id } },
-      { new: true, upsert: false }
+    const existingAccount = await Account.findOne({ userId });
+
+    if (!existingAccount)
+      return res
+        .status(403)
+        .json({ message: "Session Expired!! Please Login Again!!" })
+        .end();
+
+    for (let i = 0; i < existingAccount.watchList.length; i++) {
+      if (existingAccount.watchList[i].mal_id === mal_id)
+        return res.status(200).json({ check: true }).end();
+    }
+
+    return res.status(200).json({ check: false }).end();
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: "Check Failed!!" });
+  }
+});
+
+accountRouter.put("/remove", authMiddleware, async function (req, res) {
+  try {
+    const userId = req.userId;
+    const mal_id = req.body.mal_id;
+
+    const existingAccount = await Account.findOne({ userId });
+
+    if (!existingAccount)
+      return res
+        .status(403)
+        .json({ message: "Session Expired!! Please Login Again!!" })
+        .end();
+
+    existingAccount.watchList = existingAccount.watchList.filter(
+      (item) => item.mal_id !== mal_id
     );
 
-    if (!updatedAccount)
+    await existingAccount.save();
+
+    res.status(200).json({
+      message: "Removed From Watch List!!",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: "Update Failed!!" });
+  }
+});
+
+accountRouter.put("/add", authMiddleware, async function (req, res) {
+  try {
+    const userId = req.userId;
+    const aniData = req.body;
+
+    const existingAccount = await Account.findOne({ userId });
+
+    if (!existingAccount)
       return res.status(200).json({ message: "Account Not Found!!" }).end();
+
+    const alreadyExists = existingAccount.watchList.some(
+      (item) => item.mal_id === aniData.mal_id
+    );
+
+    if (alreadyExists)
+      return res
+        .status(200)
+        .json({ message: "Anime already present in Watchlist!!" })
+        .end();
+
+    existingAccount.watchList.push(aniData);
+    await existingAccount.save();
 
     res.status(200).json({
       message: "Added to Watch List!!",

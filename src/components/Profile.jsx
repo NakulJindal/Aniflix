@@ -34,11 +34,9 @@ export default function Profile() {
   };
 
   const handleLogout = async () => {
-    await axios.post(
-      "http://localhost:3000/api/v1/user/signout",
-      {},
-      { withCredentials: true }
-    );
+    await axios.post("http://localhost:3000/api/v1/user/signout", {
+      withCredentials: true,
+    });
     setLogin(false);
     navigate("/");
   };

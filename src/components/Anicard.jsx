@@ -1,19 +1,75 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AniList } from "./AniList";
-import { cardTypeAtom, aniIdAtom, clickCountAtom } from "../recoil/atoms";
+import {
+  cardTypeAtom,
+  aniIdAtom,
+  clickCountAtom,
+  loginAtom,
+} from "../recoil/atoms";
 import urls from "../utils/apiEndpoints";
 import { apiCall } from "../utils/utils";
+import { Button } from "@mui/joy";
+import axios from "axios";
 
 export default function Anicard() {
   const [aniData, setAniData] = useState({});
+  const [inList, setInList] = useState(false);
   const [aniId, setAniId] = useRecoilState(aniIdAtom);
   const cardType = useRecoilValue(cardTypeAtom);
+  const isLogin = useRecoilValue(loginAtom);
   const clickCount = useRecoilValue(clickCountAtom);
 
   const URL = useMemo(() => {
     return cardType === "random" ? urls.getRandomAnime : urls.getAnime(aniId);
   }, [cardType, aniId]);
+
+  const handleClick = async () => {
+    const {
+      airing,
+      broadcast,
+      episodes,
+      mal_id,
+      title,
+      title_english,
+      title_japanese,
+      trailer,
+      images,
+      type,
+      year,
+    } = aniData;
+    try {
+      if (!inList) {
+        await axios.put(
+          "http://localhost:3000/api/v1/watchlist/add",
+          {
+            airing,
+            broadcast,
+            episodes,
+            mal_id,
+            title,
+            title_english,
+            title_japanese,
+            trailer,
+            images,
+            type,
+            year,
+          },
+          { withCredentials: true }
+        );
+      } else {
+        await axios.put(
+          "http://localhost:3000/api/v1/watchlist/remove",
+          { mal_id },
+          { withCredentials: true }
+        );
+      }
+
+      setInList((check) => !check);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,8 +79,22 @@ export default function Anicard() {
         setAniId(data.mal_id);
       }
     };
+
     fetchData();
-  }, [clickCount, URL, setAniId]);
+  }, [clickCount, URL]);
+
+  useEffect(() => {
+    const listCheck = async () => {
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/watchlist/check",
+        { mal_id: aniData.mal_id },
+        { withCredentials: true }
+      );
+
+      if (res.data) setInList(res.data.check);
+    };
+    listCheck();
+  }, [aniData, inList]);
 
   if (!aniData || Object.keys(aniData).length === 0) {
     // Render 404 not found component
@@ -46,17 +116,27 @@ export default function Anicard() {
           alignContent: "baseline",
         }}
       >
-        <div>
+        <div style={{ width: "20%" }}>
           <img
             src={aniData.images?.jpg?.image_url}
             alt={`${aniData.title_english}.jpeg`}
-            width="210"
-            height="280"
+            width="100%"
+            height="auto"
             style={{ marginTop: "30px" }}
           />
         </div>
-        <div style={{ width: "1000px" }}>
-          <h2 style={{ marginBottom: "8px" }}>{aniData.title_english}</h2>
+
+        <div style={{ width: "80%", marginLeft: "2%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h2 style={{ marginBottom: "8px" }}>{aniData.title_english}</h2>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {isLogin && (
+                <Button onClick={handleClick} size="lg">
+                  {inList ? "Remove from Watchlist" : "Add to Watchlist"}
+                </Button>
+              )}
+            </div>
+          </div>
           <i>{aniData.title_japanese}</i>
           <p>{aniData.synopsis}</p>
           <div style={{ display: "flex" }}>
