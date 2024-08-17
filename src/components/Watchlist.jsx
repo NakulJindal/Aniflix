@@ -15,7 +15,6 @@ export default function Watchlist() {
   const [reRender, setreRender] = useState(false);
   const setAniId = useSetRecoilState(aniIdAtom);
   const setCardType = useSetRecoilState(cardTypeAtom);
-  const setClickCount = useSetRecoilState(clickCountAtom);
   const setTrailer = useSetRecoilState(trailerAtom);
   const navigate = useNavigate();
 
