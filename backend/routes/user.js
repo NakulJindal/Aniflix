@@ -98,7 +98,7 @@ userRouter.post("/signin", userSigninValidate, async function (req, res) {
         expires: new Date(new Date().getTime() + 7 * 86400000),
         httpOnly: true,
         secure: process.env.NODE_ENV==="production",
-        sameSite: process.env.NODE_ENV==="production"?"None":"lax",,
+        sameSite: process.env.NODE_ENV==="production"?"None":"lax",
       });
 
       return res
