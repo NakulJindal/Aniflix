@@ -87,11 +87,9 @@ export function IconButtonMenu() {
   const profile = () => navigate("/profile");
   const watchlist = () => navigate("/watchlist");
   const logout = async () => {
-    await axios.post(
-      "http://localhost:3000/api/v1/user/signout",
-      {},
-      { withCredentials: true }
-    );
+    await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/user/signout`, {
+      withCredentials: true,
+    });
     setLogin(false);
     navigate("/");
   };

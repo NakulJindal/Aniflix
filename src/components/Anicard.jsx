@@ -41,7 +41,7 @@ export default function Anicard() {
     try {
       if (!inList) {
         await axios.put(
-          "http://localhost:3000/api/v1/watchlist/add",
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/watchlist/add`,
           {
             airing,
             broadcast,
@@ -59,7 +59,7 @@ export default function Anicard() {
         );
       } else {
         await axios.put(
-          "http://localhost:3000/api/v1/watchlist/remove",
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/watchlist/remove`,
           { mal_id },
           { withCredentials: true }
         );
@@ -86,7 +86,7 @@ export default function Anicard() {
   useEffect(() => {
     const listCheck = async () => {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/watchlist/check",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/watchlist/check`,
         { mal_id: aniData.mal_id },
         { withCredentials: true }
       );

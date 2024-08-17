@@ -8,13 +8,12 @@ require("dotenv").config();
 
 const app = express();
 const PORT = 3000;
-//NJ_PAYTM
 
 mongoose.connect(process.env.DB_URL);
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONT_END_URL,
     credentials: true,
   })
 );

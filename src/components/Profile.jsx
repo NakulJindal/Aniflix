@@ -20,9 +20,12 @@ export default function Profile() {
 
   useEffect(() => {
     const fectchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/v1/user/", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/user/`,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.data) setUser(res.data);
     };
@@ -34,7 +37,7 @@ export default function Profile() {
   };
 
   const handleLogout = async () => {
-    await axios.post("http://localhost:3000/api/v1/user/signout", {
+    await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/user/signout`, {
       withCredentials: true,
     });
     setLogin(false);

@@ -10,7 +10,7 @@ export default function Watchlist() {
   const handleClick = async (mal_id) => {
     try {
       await axios.put(
-        "http://localhost:3000/api/v1/watchlist/remove",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/watchlist/remove`,
         { mal_id },
         { withCredentials: true }
       );
@@ -22,9 +22,12 @@ export default function Watchlist() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/v1/watchlist", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/watchlist`,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data) {
         setData(res.data.watchList);
       }

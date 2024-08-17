@@ -32,7 +32,7 @@ export default function Edit({ userData }) {
 
     try {
       const res = await axios.put(
-        "http://localhost:3000/api/v1/user/edit",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/user/edit`,
         formData,
         { withCredentials: true }
       );
