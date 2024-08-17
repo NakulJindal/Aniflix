@@ -11,12 +11,29 @@ const PORT = 3000;
 
 mongoose.connect(process.env.DB_URL);
 
-app.use(
-  cors({
-    origin: process.env.FRONT_END_URL,
-    credentials: true,
-  })
-);
+const allowedOrigins = [
+  process.env.FRONT_END_URL,
+  'https://aniflixproject.vercel.app',
+  'https://anniflix.netlify.app'
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+
+    // Check if the request's origin is in the allowed origins array
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/api/v1", rootRouter);
