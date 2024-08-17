@@ -68,8 +68,8 @@ userRouter.post("/signup", userSignupValidate, async function (req, res) {
       res.cookie("token", jwtToken, {
         expires: new Date(new Date().getTime() + 7 * 86400000),
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: process.env.NODE_ENV==="production",
+        sameSite: process.env.NODE_ENV==="production"?"None":"lax",
       });
 
       return res
@@ -97,8 +97,8 @@ userRouter.post("/signin", userSigninValidate, async function (req, res) {
       res.cookie("token", jwtToken, {
         expires: new Date(new Date().getTime() + 7 * 86400000),
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: process.env.NODE_ENV==="production",
+        sameSite: process.env.NODE_ENV==="production"?"None":"lax",,
       });
 
       return res
@@ -116,8 +116,8 @@ userRouter.post("/signout", async function (req, res) {
     res.clearCookie("token", {
       expires: new Date(new Date().getTime() + 1 * 86400000),
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+        secure: process.env.NODE_ENV==="production",
+        sameSite: process.env.NODE_ENV==="production"?"None":"lax",
     });
 
     return res.status(200).json({ message: "Successfully signed out" });
