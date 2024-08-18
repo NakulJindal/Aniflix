@@ -2,8 +2,6 @@
   transform: scale(1.08);
 }
 
-/* styles.css */
-
 /* Container with custom scrollbar */
 .scrollable-container {
   overflow-x: auto; /* Enable vertical scrollbar */
