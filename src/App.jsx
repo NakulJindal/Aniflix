@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Watch from "./components/Watch";
 import LogIn from "./components/LogIn";
@@ -9,9 +8,10 @@ import Landing from "./components/Landing";
 import Anicard from "./components/Anicard";
 import Profile from "./components/Profile";
 import Watchlist from "./components/Watchlist";
-import { SearchResults } from "./components/Search";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { Container, CssBaseline } from "@mui/joy";
+import { SearchResults } from "./components/Search";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const topAnimeRef = useRef(null);

@@ -1,16 +1,14 @@
+import axios from "axios";
+import { Button } from "@mui/joy";
+import { AniList } from "./AniList";
 import { useEffect, useState, useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { AniList } from "./AniList";
 import {
   cardTypeAtom,
   aniIdAtom,
   clickCountAtom,
   loginAtom,
 } from "../recoil/atoms";
-import urls from "../utils/apiEndpoints";
-import { apiCall } from "../utils/utils";
-import { Button } from "@mui/joy";
-import axios from "axios";
 
 export default function Anicard() {
   const [aniData, setAniData] = useState({});
@@ -21,7 +19,9 @@ export default function Anicard() {
   const clickCount = useRecoilValue(clickCountAtom);
 
   const URL = useMemo(() => {
-    return cardType === "random" ? urls.getRandomAnime : urls.getAnime(aniId);
+    return cardType === "random"
+      ? `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/random`
+      : `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/anime/${aniId}`;
   }, [cardType, aniId]);
 
   const handleClick = async () => {
@@ -73,10 +73,10 @@ export default function Anicard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await apiCall(URL);
-      if (data) {
-        setAniData(data);
-        setAniId(data.mal_id);
+      const res = await axios.get(URL);
+      if (res.data) {
+        setAniData(res.data);
+        setAniId(res.data.mal_id);
       }
     };
 

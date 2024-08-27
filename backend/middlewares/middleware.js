@@ -1,6 +1,7 @@
 const zod = require("zod");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../config");
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const signUpUser = zod.object({
   username: zod.string(),

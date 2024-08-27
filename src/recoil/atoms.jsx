@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-import urls from "../utils/apiEndpoints";
 
 export const aniIdAtom = atom({
   key: "aniIdAtom",
@@ -18,7 +17,7 @@ export const cardTypeAtom = atom({
 
 export const queryAtom = atom({
   key: "queryAtom",
-  default: urls.getSearchResults,
+  default: "",
 });
 
 export const showSearchResultsAtom = atom({
@@ -33,7 +32,7 @@ export const clickCountAtom = atom({
 
 export const dayAtom = atom({
   key: "dayAtom",
-  default: "",
+  default: "monday",
 });
 
 export const trailerAtom = atom({

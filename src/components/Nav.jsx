@@ -1,7 +1,13 @@
+import "./Nav.css";
+import axios from "axios";
+import logo from "/logo-bg.png";
+import { SearchBar } from "./Search";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DrawerMobileNavigation from "./SideDrawer";
+import MoreVert from "@mui/icons-material/MoreVert";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { SearchBar } from "./Search";
+import { cardTypeAtom, clickCountAtom, loginAtom } from "../recoil/atoms";
 import {
   Button,
   IconButton,
@@ -10,12 +16,6 @@ import {
   MenuButton,
   MenuItem,
 } from "@mui/joy";
-import MoreVert from "@mui/icons-material/MoreVert";
-import DrawerMobileNavigation from "./SideDrawer";
-import { cardTypeAtom, clickCountAtom, loginAtom } from "../recoil/atoms";
-import logo from "/logo-bg.png";
-import "./Nav.css";
-import axios from "axios";
 
 export default function Nav({ topAnimeRef, scheduleRef }) {
   const [show, setShow] = useState(false);

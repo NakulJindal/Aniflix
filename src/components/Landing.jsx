@@ -1,6 +1,6 @@
 import Banner from "./Banner";
-import { AniList } from "./AniList";
 import Schedule from "./Schedule";
+import { AniList } from "./AniList";
 
 export default function Landing({ topAnimeRef, scheduleRef }) {
   return (

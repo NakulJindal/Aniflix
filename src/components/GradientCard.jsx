@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import { Card, CardCover, CardContent, Typography } from "@mui/joy";
 import {
   aniIdAtom,

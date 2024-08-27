@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
 import { aniIdAtom, trailerAtom } from "../recoil/atoms";
 import { Button, ButtonGroup, Typography } from "@mui/joy";
-import urls from "../utils/apiEndpoints";
-import { apiCall } from "../utils/utils";
 
 export default function Banner() {
   const [recentAnimes, setRecentAnimes] = useState([]);
@@ -20,8 +19,10 @@ export default function Banner() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await apiCall(urls.getSeasonNow);
-      if (data) setRecentAnimes(data);
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/season`
+      );
+      if (res.data) setRecentAnimes(res.data);
     };
     fetchData();
   }, []);

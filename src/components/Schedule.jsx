@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import { AniList } from "./AniList";
 import { dayAtom } from "../recoil/atoms";
+import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
+import { useLocation } from "react-router-dom";
 import { ButtonGroup, Button, Grid } from "@mui/joy";
 
 export default function Schedule() {

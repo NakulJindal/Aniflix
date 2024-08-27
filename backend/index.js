@@ -1,21 +1,20 @@
-const mongoose = require("mongoose");
-const express = require("express");
 const cors = require("cors");
+const express = require("express");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const rootRouter = require("./routes/index");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const app = express();
 const PORT = 3000;
-
-mongoose.connect(process.env.DB_URL);
-
 const allowedOrigins = [
   process.env.FRONT_END_URL,
-  'https://aniflixproject.vercel.app',
-  'https://anniflix.netlify.app'
+  "https://aniflixproject.vercel.app",
+  "https://anniflix.netlify.app",
 ];
+
+mongoose.connect(process.env.DB_URL);
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -26,11 +25,11 @@ const corsOptions = {
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));

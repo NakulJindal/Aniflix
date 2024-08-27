@@ -1,9 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
-import { useRecoilValue } from "recoil";
+import axios from "axios";
 import { Typography } from "@mui/joy";
+import { useRecoilValue } from "recoil";
 import GradientCover from "./GradientCard";
-import urls from "../utils/apiEndpoints";
-import { apiCall } from "../utils/utils";
+import { useState, useEffect } from "react";
 import { aniIdAtom, clickCountAtom, dayAtom, queryAtom } from "../recoil/atoms";
 
 export function AniList({ listType }) {
@@ -14,32 +13,39 @@ export function AniList({ listType }) {
   const day = useRecoilValue(dayAtom);
 
   useEffect(() => {
+    let URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/recommend/${id}`;
+
+    switch (listType) {
+      case "top":
+        URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/top`;
+        break;
+      case "search":
+        URL = `${
+          import.meta.env.VITE_BACKEND_BASE_URL
+        }/anime/search?q=${query}`;
+        break;
+      case "schedule":
+        URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/schedule/${day}`;
+        break;
+      case "upcoming":
+        URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/upcoming`;
+    }
+
     const fetchData = async () => {
-      let URL = "";
-      switch (listType) {
-        case "top":
-          URL = urls.getTopAnimeList;
-          break;
-        case "search":
-          URL = query;
-          break;
-        case "schedule":
-          URL = urls.getScheduleFor(day);
-          break;
-        case "upcoming":
-          URL = urls.getSeasonUpcoming;
-          break;
-        default:
-          URL = urls.getRecommendedAnimeList(id);
-      }
-      const res = await apiCall(URL);
-      if (res) {
-        const reversedData = listType === "schedule" ? res.reverse() : res;
-        setData(reversedData);
+      try {
+        const res = await axios.get(URL);
+        if (res.data) {
+          const reversedData =
+            listType === "schedule" ? res.data.reverse() : res.data;
+          setData(reversedData);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
-  }, [id, query, day, clickCount, listType]);
+  }, [id, query, day, listType, clickCount]);
 
   return (
     <div>

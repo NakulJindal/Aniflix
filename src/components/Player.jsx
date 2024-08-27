@@ -1,6 +1,6 @@
+import YouTube from "react-youtube";
 import { useRecoilValue } from "recoil";
 import { trailerAtom } from "../recoil/atoms";
-import YouTube from "react-youtube";
 
 export default function Player() {
   const vidId = useRecoilValue(trailerAtom);

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { AniList } from "./AniList";
 import { queryAtom, showSearchResultsAtom } from "../recoil/atoms";
-import urls from "../utils/apiEndpoints";
 import { Button, Input } from "@mui/joy";
 import SearchTwoTone from "@mui/icons-material/SearchTwoTone";
 import "./SearchBar.css";
@@ -14,8 +13,7 @@ export function SearchBar() {
 
   const handleSearch = () => {
     const value = document.getElementById("searchInput").value;
-    const newURL = urls.getSearchResults(value);
-    setQuery(newURL);
+    setQuery(value);
     if (!show) setShow(true);
     navigate("/search");
   };

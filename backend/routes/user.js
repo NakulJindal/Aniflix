@@ -1,16 +1,16 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../config");
 const { User, Account } = require("../db");
 const {
+  authMiddleware,
   userSignupValidate,
   userSigninValidate,
   updateInputValidate,
-  authMiddleware,
 } = require("../middlewares/middleware");
 require("dotenv").config();
 
 const userRouter = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 userRouter.get("/", authMiddleware, async function (req, res) {
   try {
@@ -68,8 +68,8 @@ userRouter.post("/signup", userSignupValidate, async function (req, res) {
       res.cookie("token", jwtToken, {
         expires: new Date(new Date().getTime() + 7 * 86400000),
         httpOnly: true,
-        secure: process.env.NODE_ENV==="production",
-        sameSite: process.env.NODE_ENV==="production"?"None":"lax",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "lax",
       });
 
       return res
@@ -97,8 +97,8 @@ userRouter.post("/signin", userSigninValidate, async function (req, res) {
       res.cookie("token", jwtToken, {
         expires: new Date(new Date().getTime() + 7 * 86400000),
         httpOnly: true,
-        secure: process.env.NODE_ENV==="production",
-        sameSite: process.env.NODE_ENV==="production"?"None":"lax",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "lax",
       });
 
       return res
@@ -116,8 +116,8 @@ userRouter.post("/signout", async function (req, res) {
     res.clearCookie("token", {
       expires: new Date(new Date().getTime() + 1 * 86400000),
       httpOnly: true,
-        secure: process.env.NODE_ENV==="production",
-        sameSite: process.env.NODE_ENV==="production"?"None":"lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "lax",
     });
 
     return res.status(200).json({ message: "Successfully signed out" });

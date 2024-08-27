@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import List from "@mui/joy/List";
+import Drawer from "@mui/joy/Drawer";
 import { useSetRecoilState } from "recoil";
 import IconButton from "@mui/joy/IconButton";
-import Drawer from "@mui/joy/Drawer";
-import List from "@mui/joy/List";
+import { useNavigate } from "react-router-dom";
 import ListItemButton from "@mui/joy/ListItemButton";
-import ViewSidebarRoundedIcon from "@mui/icons-material/ViewSidebarRounded";
 import { cardTypeAtom, clickCountAtom } from "../recoil/atoms";
+import ViewSidebarRoundedIcon from "@mui/icons-material/ViewSidebarRounded";
 
 export default function DrawerMobileNavigation({ topAnimeRef, scheduleRef }) {
   const [open, setOpen] = useState(false);

@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Button, Sheet, Stack, styled, Typography } from "@mui/joy";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Sheet, Stack, styled, Typography } from "@mui/joy";
 import { aniIdAtom, cardTypeAtom, trailerAtom } from "../recoil/atoms";
 
 export default function Watchlist() {

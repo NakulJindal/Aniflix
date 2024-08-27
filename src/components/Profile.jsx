@@ -1,8 +1,9 @@
 import axios from "axios";
+import Edit from "./Edit";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginAtom, userAtom } from "../recoil/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   AspectRatio,
   Box,
@@ -11,7 +12,6 @@ import {
   CardContent,
   Typography,
 } from "@mui/joy/";
-import Edit from "./Edit";
 
 export default function Profile() {
   const [user, setUser] = useRecoilState(userAtom);
