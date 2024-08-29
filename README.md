@@ -15,8 +15,10 @@ This is a anime streaming website created using React and Recoil for state manag
 
 ## Upcoming Features:
 
-1. Pop-ups for any Wrong Input
+1. Pop-ups for better user experience
 2. Comment Section
 3. Better UI
 
 ### As this is a ongoing project all suggestions and feedbacks are welcome.
+
+#### NOTE: The backend instance of this website is deployed on a free service which automatically spins down with inactivity which can delay requests by 50 seconds or more. So, Kindly be patient and let the instance come up as the subsequent requests will not face any delays.
