@@ -20,11 +20,6 @@ export const queryAtom = atom({
   default: "",
 });
 
-export const showSearchResultsAtom = atom({
-  key: "showSearchResultsAtom",
-  default: false,
-});
-
 export const clickCountAtom = atom({
   key: "clickCountAtom",
   default: 1,

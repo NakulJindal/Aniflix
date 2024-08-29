@@ -8,11 +8,7 @@ import {
   Typography,
   Sheet,
 } from "@mui/joy";
-import {
-  cardTypeAtom,
-  clickCountAtom,
-  showSearchResultsAtom,
-} from "../recoil/atoms";
+import { cardTypeAtom, clickCountAtom } from "../recoil/atoms";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
@@ -21,13 +17,9 @@ export default function Footer({ topAnimeRef, scheduleRef }) {
 
   const setCardType = useSetRecoilState(cardTypeAtom);
   const setClickCount = useSetRecoilState(clickCountAtom);
-  const [show, setShow] = useRecoilState(showSearchResultsAtom);
   const navigate = useNavigate();
 
-  const searchClickHandler = () => {
-    if (!show) setShow(true);
-    navigate("/search");
-  };
+  const searchClickHandler = () => navigate("/search");
 
   const randomClickHandler = () => {
     setCardType("random");

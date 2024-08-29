@@ -37,10 +37,7 @@ function App() {
                   />
                 }
               />
-              <Route
-                path="/search"
-                element={<SearchResults listType="search" />}
-              />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />

@@ -15,7 +15,7 @@ const urls = {
   getRecommendedAnimeList: (mal_id) =>
     `${base_url}/anime/${mal_id}/recommendations`,
   getSearchResults: (query) =>
-    `${base_url}/anime?sfw=false&unapproved=false&page=1&limit=12&sfw=false&order_by=popularity&sort=asc&q=${query}`,
+    `${base_url}/anime?sfw=true&unapproved=false&page=1&limit=12&order_by=popularity&sort=asc&q=${query}`,
 };
 
 module.exports = urls;
