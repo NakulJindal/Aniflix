@@ -1,7 +1,7 @@
 import { AniList } from "./AniList";
 import { dayAtom } from "../recoil/atoms";
 import { useEffect, useRef } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useLocation } from "react-router-dom";
 import { ButtonGroup, Button, Grid } from "@mui/joy";
 
@@ -10,6 +10,7 @@ export default function Schedule() {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const shouldScroll = query.get("scroll");
+  const [day, setDay] = useRecoilState(dayAtom);
   const days = [
     "sunday",
     "monday",
@@ -21,11 +22,10 @@ export default function Schedule() {
   ];
   const date = new Date();
   const today = date.getDay();
-  const setDay = useSetRecoilState(dayAtom);
 
   useEffect(() => {
     setDay(days[today]);
-  });
+  }, []);
 
   useEffect(() => {
     if (shouldScroll) {
@@ -51,25 +51,74 @@ export default function Schedule() {
           aria-label="horizontal plain button group"
           variant="plain"
         >
-          <Button key={0} onClick={() => setDay(days[0])}>
+          <Button
+            key={0}
+            onClick={() => setDay(days[0])}
+            variant={day == days[0] ? "soft" : "plain"}
+            sx={
+              day == days[0] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Sunday
           </Button>
-          <Button key={1} onClick={() => setDay(days[1])}>
+          <Button
+            key={1}
+            onClick={() => setDay(days[1])}
+            variant={day == days[1] ? "soft" : "plain"}
+            sx={
+              day == days[1] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Monday
           </Button>
-          <Button key={2} onClick={() => setDay(days[2])}>
+          <Button
+            key={2}
+            onClick={() => setDay(days[2])}
+            variant={day == days[2] ? "soft" : "plain"}
+            sx={
+              day == days[2] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Tuesday
           </Button>
-          <Button key={3} onClick={() => setDay(days[3])}>
+          <Button
+            key={3}
+            onClick={() => setDay(days[3])}
+            variant={day == days[3] ? "soft" : "plain"}
+            sx={
+              day == days[3] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Wednesday
           </Button>
-          <Button key={4} onClick={() => setDay(days[4])}>
+          <Button
+            key={4}
+            onClick={() => setDay(days[4])}
+            variant={day == days[4] ? "soft" : "plain"}
+            sx={
+              day == days[4] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Thursday
           </Button>
-          <Button key={5} onClick={() => setDay(days[5])}>
+          <Button
+            key={5}
+            onClick={() => setDay(days[5])}
+            variant={day == days[5] ? "soft" : "plain"}
+            sx={
+              day == days[5] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Friday
           </Button>
-          <Button key={6} onClick={() => setDay(days[6])}>
+          <Button
+            key={6}
+            onClick={() => setDay(days[6])}
+            variant={day == days[6] ? "soft" : "plain"}
+            sx={
+              day == days[6] ? { fontWeight: "bold" } : { fontWeight: "normal" }
+            }
+          >
             Saturday
           </Button>
         </ButtonGroup>
