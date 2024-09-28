@@ -1,5 +1,6 @@
 import "./SearchBar.css";
 import axios from "axios";
+import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import SearchTwoTone from "@mui/icons-material/SearchTwoTone";
@@ -11,6 +12,7 @@ import {
   cardTypeAtom,
   trailerAtom,
 } from "../recoil/atoms";
+import "./Search.css";
 
 export function SearchBar() {
   const setQuery = useSetRecoilState(queryAtom);
@@ -59,24 +61,13 @@ export function SearchBar() {
 export function SearchResults() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [isVisible, setVisible] = useState(false);
   const query = useRecoilValue(queryAtom);
   const setAniId = useSetRecoilState(aniIdAtom);
   const setTrailer = useSetRecoilState(trailerAtom);
   const setCardType = useSetRecoilState(cardTypeAtom);
 
   const allowedTypes = ["TV", "Movie", "Special", "TV Special", "ONA", "OVA"];
-
-  const Item = styled(Sheet)(({ theme }) => ({
-    ...theme.typography["body-sm"],
-    textAlign: "center",
-    display: "flex",
-    fontWeight: theme.fontWeight.md,
-    color: theme.vars.palette.text.secondary,
-    border: "1px solid",
-    borderColor: theme.palette.divider,
-    padding: theme.spacing(1),
-    borderRadius: theme.radius.md,
-  }));
 
   const handleSelect = async (data) => {
     setAniId(data.mal_id);
@@ -87,35 +78,39 @@ export function SearchResults() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/search?q=${query}`
-      );
-      if (res.data) {
-        const filteredData = res.data.filter((item) =>
-          allowedTypes.includes(item.type)
+      try {
+        if (isVisible) setVisible(false);
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/search?q=${query}`
         );
-        setData(filteredData);
+        if (res.data) {
+          const filteredData = res.data.filter((item) =>
+            allowedTypes.includes(item.type)
+          );
+          setData(filteredData);
+          setTimeout(() => {
+            if (filteredData.length > 0) setVisible(true);
+          }, 50);
+        }
+      } catch (error) {
+        console.error("Error fetching search results:", error);
       }
     };
-    fetchData();
+
+    if (query) fetchData();
   }, [query]);
 
   return (
     <div>
-      <Typography level="h3">Watchlist Animes:</Typography>
+      <Typography level="h3">Search Results:</Typography>
       <br />
       <div>
         <div style={{ minWidth: "100%" }}>
-          <Stack
-            direction="column"
-            justifyContent="space-between"
-            alignItems="stretch"
-            spacing={1}
-          >
+          <div className={`searchlist-container ${isVisible ? "visible" : ""}`}>
             {data &&
               data.length > 0 &&
               data.map((e, index) => (
-                <Item key={index}>
+                <div key={index} className="searchlist-item">
                   <div
                     style={{ width: "5%", alignItems: "center" }}
                     onClick={() => handleSelect(e)}
@@ -173,9 +168,9 @@ export function SearchResults() {
                       </div>
                     </div>
                   </div>
-                </Item>
+                </div>
               ))}
-          </Stack>
+          </div>
         </div>
       </div>
     </div>

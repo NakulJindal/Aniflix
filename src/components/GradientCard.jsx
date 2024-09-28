@@ -2,12 +2,7 @@ import { useMemo } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { Card, CardCover, CardContent, Typography } from "@mui/joy";
-import {
-  aniIdAtom,
-  cardTypeAtom,
-  clickCountAtom,
-  trailerAtom,
-} from "../recoil/atoms";
+import { aniIdAtom, cardTypeAtom, trailerAtom } from "../recoil/atoms";
 
 export default function GradientCover({ entry, listType }) {
   const { title_english, title, mal_id, images, trailer } = entry;
@@ -18,14 +13,12 @@ export default function GradientCover({ entry, listType }) {
 
   const setAniId = useSetRecoilState(aniIdAtom);
   const setCardType = useSetRecoilState(cardTypeAtom);
-  const setClickCount = useSetRecoilState(clickCountAtom);
   const setTrailer = useSetRecoilState(trailerAtom);
   const navigate = useNavigate();
 
   const handleClick = () => {
     setAniId(id);
     setCardType("picked");
-    setClickCount((count) => count + 1);
     setTrailer(vidId);
     if (listType === "recommended") navigate("/anime");
     else navigate("/watch");

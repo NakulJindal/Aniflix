@@ -28,3 +28,21 @@
 .scrollable-container::-webkit-scrollbar-button {
   display: none; /* Hide scrollbar arrow buttons */
 }
+
+.list-container {
+  display: flex;
+  min-width: 100%;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.list-item {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.list-container.visible .list-item {
+  opacity: 1;
+  transform: translateX(0);
+}

@@ -2,11 +2,13 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Sheet, Stack, styled, Typography } from "@mui/joy";
+import { Button, Typography } from "@mui/joy";
 import { aniIdAtom, cardTypeAtom, trailerAtom } from "../recoil/atoms";
+import "./Watchlist.css";
 
 export default function Watchlist() {
   const [data, setData] = useState([]);
+  const [isVisible, setVisible] = useState(false);
   const [reRender, setreRender] = useState(false);
   const setAniId = useSetRecoilState(aniIdAtom);
   const setCardType = useSetRecoilState(cardTypeAtom);
@@ -48,17 +50,9 @@ export default function Watchlist() {
     fetchData();
   }, [reRender]);
 
-  const Item = styled(Sheet)(({ theme }) => ({
-    ...theme.typography["body-sm"],
-    textAlign: "center",
-    display: "flex",
-    fontWeight: theme.fontWeight.md,
-    color: theme.vars.palette.text.secondary,
-    border: "1px solid",
-    borderColor: theme.palette.divider,
-    padding: theme.spacing(1),
-    borderRadius: theme.radius.md,
-  }));
+  useEffect(() => {
+    if (data.length > 0) setVisible(true);
+  }, [data]);
 
   return (
     <div>
@@ -66,16 +60,11 @@ export default function Watchlist() {
       <br />
       <div>
         <div style={{ minWidth: "100%" }}>
-          <Stack
-            direction="column"
-            justifyContent="space-between"
-            alignItems="stretch"
-            spacing={1}
-          >
+          <div className={`watchlist-container ${isVisible ? "visible" : ""}`}>
             {data &&
               data.length > 0 &&
               data.map((e, index) => (
-                <Item key={index}>
+                <div key={index} className="watchlist-item">
                   <div style={{ width: "5%" }} onClick={() => handleSelect(e)}>
                     <img
                       src={e.images?.jpg?.image_url}
@@ -135,9 +124,9 @@ export default function Watchlist() {
                       )}
                     </div>
                   </div>
-                </Item>
+                </div>
               ))}
-          </Stack>
+          </div>
         </div>
       </div>
     </div>

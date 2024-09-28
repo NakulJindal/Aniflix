@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { aniIdAtom, trailerAtom } from "../recoil/atoms";
 import { Button, ButtonGroup, Typography } from "@mui/joy";
+import "./Banner.css";
 
 export default function Banner() {
-  const [recentAnimes, setRecentAnimes] = useState([]);
   const [index, setIndex] = useState(0);
+  const [isSliding, setSliding] = useState(false);
+  const [recentAnimes, setRecentAnimes] = useState([]);
+  const [slideDirection, setSlideDirection] = useState("left");
   const setAniId = useSetRecoilState(aniIdAtom);
   const setTrailer = useSetRecoilState(trailerAtom);
   const navigate = useNavigate();
@@ -28,14 +31,34 @@ export default function Banner() {
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setIndex((prevIndex) =>
-        prevIndex === recentAnimes.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 4000);
+    const intervalId = setInterval(() => handleNextClick(), 4000);
 
     return () => clearInterval(intervalId);
   }, [index]);
+
+  const handleNextClick = () => {
+    setSlideDirection("left");
+    setSliding(true);
+
+    setTimeout(() => {
+      setIndex((prevIndex) =>
+        prevIndex === recentAnimes.length - 1 ? 0 : prevIndex + 1
+      );
+      setSliding(false);
+    }, 550);
+  };
+
+  const handlePrevClick = () => {
+    setSlideDirection("right");
+    setSliding(true);
+
+    setTimeout(() => {
+      setIndex((prevIndex) =>
+        prevIndex === 0 ? recentAnimes.length - 1 : prevIndex - 1
+      );
+      setSliding(false);
+    }, 550);
+  };
 
   const handleInfoClick = () => {
     setAniId(recentAnimes[index].mal_id);
@@ -48,34 +71,24 @@ export default function Banner() {
     navigate("/watch");
   };
 
-  const handleNextClick = () => {
-    setIndex((prevIndex) =>
-      prevIndex === recentAnimes.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handlePrevClick = () => {
-    setIndex((prevIndex) =>
-      prevIndex === 0 ? recentAnimes.length - 1 : prevIndex - 1
-    );
-  };
-
   return (
-    <div
-      className="banner"
-      style={{
-        height: "320px",
-      }}
-    >
-      {recentAnimes[index] && Object.keys(recentAnimes[index]).length !== 0 && (
+    <div className="banner" style={{ height: "320px" }}>
+      {recentAnimes.length > 0 && (
         <div
-          className="banner_contents"
+          className={`banner_contents ${
+            isSliding
+              ? slideDirection === "left"
+                ? "slide-left"
+                : "slide-right"
+              : "enter"
+          }`}
+          key={index}
           style={{
             height: "320px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            margin: "auto 75px",
+            margin: "0px",
           }}
         >
           <div>

@@ -1,0 +1,28 @@
+.watchlist-container {
+  display: flex;
+  min-width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.watchlist-item {
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #cdd7e1;
+  background-color: #0b0d0e;
+  padding: 8px;
+  border: 1px solid rgba(159, 166, 173, 0.16);
+  border-radius: 8px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.watchlist-container.visible .watchlist-item {
+  opacity: 1;
+  transform: translateY(0);
+}

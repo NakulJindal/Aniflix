@@ -1,59 +1,26 @@
-.nav {
+.banner {
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  padding: 10px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #000;
-  transition: background-color 0.3s;
 }
 
-.nav_black {
-  background-color: black;
+.banner_contents {
+  position: absolute;
+  width: 100%;
+  opacity: 1;
+  transition: all 0.55s ease;
 }
 
-.nav_container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+.banner_contents.slide-left {
+  opacity: 0;
+  margin-right: 100%;
 }
 
-.nav_logo_container {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.banner_contents.slide-right {
+  opacity: 0;
+  margin-left: 100%;
 }
 
-.nav_logo {
-  width: 150px;
-}
-
-.nav_search {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  min-width: 300px;
-  max-width: 600px;
-  margin: 10px 20px;
-}
-
-.nav_buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-@media (max-width: 768px) {
-  .nav_search {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
-    margin: 10px 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .nav_buttons {
-    flex-direction: initial;
-    gap: 5px;
-  }
+.banner_contents.enter {
+  transform: translateX(-100);
 }

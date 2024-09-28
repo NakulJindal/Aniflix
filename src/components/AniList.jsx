@@ -3,49 +3,75 @@ import { Typography } from "@mui/joy";
 import { useRecoilValue } from "recoil";
 import GradientCover from "./GradientCard";
 import { useState, useEffect } from "react";
-import { aniIdAtom, clickCountAtom, dayAtom, queryAtom } from "../recoil/atoms";
+import { aniIdAtom, dayAtom } from "../recoil/atoms";
+import "./Anilist.css";
 
 export function AniList({ listType }) {
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [isVisible, setVisible] = useState(false);
   const id = useRecoilValue(aniIdAtom);
-  const query = useRecoilValue(queryAtom);
-  const clickCount = useRecoilValue(clickCountAtom);
   const day = useRecoilValue(dayAtom);
 
+  let URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/recommend/${id}`;
+
+  switch (listType) {
+    case "top":
+      URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/top`;
+      break;
+    case "upcoming":
+      URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/upcoming`;
+      break;
+    case "schedule":
+      URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/schedule/${day}`;
+  }
+
   useEffect(() => {
-    let URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/recommend/${id}`;
-
-    switch (listType) {
-      case "top":
-        URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/top`;
-        break;
-      case "search":
-        URL = `${
-          import.meta.env.VITE_BACKEND_BASE_URL
-        }/anime/search?q=${query}`;
-        break;
-      case "schedule":
-        URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/schedule/${day}`;
-        break;
-      case "upcoming":
-        URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/upcoming`;
-    }
-
     const fetchData = async () => {
       try {
+        if (isVisible) setVisible(false);
         const res = await axios.get(URL);
         if (res.data) {
           const reversedData =
             listType === "schedule" ? res.data.reverse() : res.data;
           setData(reversedData);
-        }
+          setTimeout(() => {
+            if (reversedData.length > 0) setVisible(true);
+          }, 50);
+        } else throw new Error();
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [id, query, day, listType, clickCount]);
+    setLoading(false);
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (isVisible) setVisible(false);
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/anime/schedule/${day}`
+        );
+        if (res.data) {
+          const reversedData = res.data.reverse();
+          setData(reversedData);
+          setTimeout(() => {
+            if (reversedData.length > 0) setVisible(true);
+          }, 550);
+        } else throw new Error();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (listType === "schedule") fetchData();
+    setLoading(false);
+  }, [day]);
+
+  if (isLoading || data.length == 0) return <div>Loading...</div>;
 
   return (
     <div>
@@ -63,14 +89,10 @@ export function AniList({ listType }) {
           scrollbarWidth: "thin",
         }}
       >
-        <div style={{ display: "inline-block", minWidth: "100%" }}>
-          {data &&
-            data.length > 0 &&
+        <div className={`list-container ${isVisible ? "visible" : ""}`}>
+          {data.length > 0 &&
             data.map((e, index) => (
-              <div
-                key={index}
-                style={{ display: "inline-block", margin: "0 5px" }}
-              >
+              <div key={index} className="list-item">
                 <GradientCover
                   entry={listType === "recommended" ? e.entry : e}
                   listType={listType}
